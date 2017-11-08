@@ -1,12 +1,23 @@
-machine:
-  python:
-    version: 3.5.2
-dependencies:
-  override:
-    - pip install -r requirements.txt
-test:
-  override:
-    - nosetests tests/math-test.py
-  post:
-    - coverage run src/*.py
-    - coverage report
+- pipeline: "build"
+  trigger_mode: "ON_EVERY_PUSH"
+actions:
+- action: "Execute: python test"
+  type: "BUILD"
+  setup_commands:
+  - "pip install -r requirements.txt"
+  execute_commands:
+  - "nosetests tests/math-test.py"
+  - "coverage run src/*.py"
+  - "coverage report"
+# machine:
+#   python:
+#     version: 3.5.2
+# dependencies:
+#   override:
+#     - pip install -r requirements.txt
+# test:
+#   override:
+#     - nosetests tests/math-test.py
+#   post:
+#     - coverage run src/*.py
+#     - coverage report
